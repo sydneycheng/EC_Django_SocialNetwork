@@ -68,10 +68,10 @@ def new_post(request):
     return render(request, 'FeedApp/new_post.html', context)
 
 @login_required
-def friends_feed(request):
+def friendsfeed(request):
     comment_count_list = []
     like_count_list = []
-    friends = Post.objects.filter(username=request.user).values('friends')
+    friends = Profile.objects.filter(username=request.user).values('friends')
     posts = Post.objects.filter(username__in=friends).order_by('-date_posted')
     for p in posts:
         c_count = Comment.objects.filter(post=p).count()
@@ -162,4 +162,3 @@ def friends(request):
                 'all_profiles':all_profiles,'request_received_profiles':request_received_profiles}
     return render(request, 'FeedApp/friends.html',context)
 
-    
