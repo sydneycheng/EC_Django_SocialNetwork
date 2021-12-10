@@ -71,7 +71,7 @@ def new_post(request):
 def friendsfeed(request):
     comment_count_list = []
     like_count_list = []
-    friends = Profile.objects.filter(username=request.user).values('friends')
+    friends = Profile.objects.filter(user=request.user).values('friends')
     posts = Post.objects.filter(username__in=friends).order_by('-date_posted')
     for p in posts:
         c_count = Comment.objects.filter(post=p).count()
@@ -127,11 +127,11 @@ def friends(request):
     all_profiles = Profile.objects.exclude(user=request.user).exclude(id__in=user_friends_profiles).exclude(id__in=request_sent_profiles)
 
     # to get friend requests received by the user
-    request_received_profiles = Relationship.objects.filter(receiver=user_profile,status="sent")
+    request_received_profiles = Relationship.objects.filter(receiver=user_profile,status='sent')
 
     # if this is the first time to access the friend request page, create the first relationship
     # w the admin of the website (so the admin is friends w everyone)
-    if not user_relationships.exist():          # filter works w/ exists, get does not
+    if not user_relationships.exists():          # filter works w/ exists, get does not
         Relationship.objects.create(sender=user_profile,receiver=admin_profile,status='sent')
         
     # check to see which SUBMIT button was pressed (sending a friend request or accepting a friend request)

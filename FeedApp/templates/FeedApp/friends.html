@@ -52,13 +52,13 @@
         <th>Date Sent</th>
         <th>Status</th>
     <tr>
-        {% for fr in user_relationships %}
+        {% for r in user_relationships %}
     <tr>
-        <td>{r.receiver}}</td>
-        <td>{r.receiver.first_name}}</td>
-        <td>{r.receiver.last_name}}</td>
-        <td>{r.created}}</td>
-        <td>{r.status}}</td>
+        <td>{{r.receiver}}</td>
+        <td>{{r.receiver.first_name}}</td>
+        <td>{{r.receiver.last_name}}</td>
+        <td>{{r.created}}</td>
+        <td>{{r.status}}</td>
 
     </tr>
     {% endfor %}
@@ -109,7 +109,7 @@
         {% for rr in request_received_profiles %}
         <tr>
             <td>{{rr.sender}}</td>
-            <td>{rr.first_name}}</td>
+            <td>{{rr.first_name}}</td>
             <td>{{rr.last_name}}</td>
             <td><input type="checkbox" name="receive_requests" value="{{rr.id}}"></td>
         </tr>
