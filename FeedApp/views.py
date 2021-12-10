@@ -72,8 +72,12 @@ def comments(request,post_id):
     if request.method == 'POST' and request.POST.get("btn1"):
         comment = request.POST.get("comment")
         Comment.objects.create(post_id=post_id,username=request.user,text=comment,date_added=date.today())
+    
+    comments = Comment.objects.filter(post=post_id)
+    post = Post.objects.get(id=post_id)
 
-
+    context = {'post':post, 'comments':comments}
+    return render(request, 'FeedApp/comments.html', context)
 
 
 
