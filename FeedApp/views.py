@@ -68,6 +68,23 @@ def new_post(request):
     return render(request, 'FeedApp/new_post.html', context)
 
 @login_required
+def friends_feed(request):
+    comment_count_list = []
+    like_count_list = []
+    friends = Post.objects.filter(username=request.user).values('friends')
+    posts = Post.objects.filter(username__in=friends).order_by('-date_posted')
+    for p in posts:
+        c_count = Comment.objects.filter(post=p).count()
+        l_count = Like.objects.filter(post=p).count()
+        comment_count_list.append(c_count)
+        like_count_list.append(l_count)
+    zipped_list = zip(posts,comment_count_list,like_count_list)
+
+    context = {'posts':posts, 'zipped_list':zipped_list}
+    return render(request, 'FeedApp/friendsfeed.html', context)
+
+
+@login_required
 def comments(request,post_id):
     if request.method == 'POST' and request.POST.get("btn1"):
         comment = request.POST.get("comment")
